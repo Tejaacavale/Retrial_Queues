@@ -2,7 +2,7 @@
 
 ![Queue Diagram](retrial.png)
 
-A discrete-event simulation of the **M/M/1 retrial queue**, with analysis and visualization in Python.
+A self-contained, open-source simulator for the **M/M/1 retrial queue** — a niche that most general queueing libraries (e.g. [Ciw](https://github.com/CiwPython/Ciw)) don't model out of the box. C++ simulation core, Python bindings, and a worked theoretical report with analysis and visualization.
 
 ## What is a Retrial Queue?
 
