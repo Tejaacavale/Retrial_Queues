@@ -24,3 +24,9 @@ code/compute.exe
 code/file1.txt
 code/file2.txt
 code/file3.txt
+
+# Python extension build artifacts
+code/build/
+code/*.so
+code/*.pyd
+code/retrial_queue*.so

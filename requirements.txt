@@ -1,4 +1,8 @@
+# Jupyter notebook analysis
 numpy
 matplotlib
-pandas
 jupyter
+
+# Python library build (optional — only needed for `make python`)
+pybind11
+setuptools

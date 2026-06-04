@@ -75,7 +75,45 @@ Three output files are written to the `code/` directory:
 | `file2.txt` | Parameters + summary metrics (avg wait time, avg system time, idle fraction, mean N(t)) |
 | `file3.txt` | Per-job blocking probability estimates |
 
-### Step 2 — Run the analysis notebook
+### Step 2 (optional) — Use as a Python library
+
+The simulator can be imported directly into Python scripts or notebooks via a pybind11 extension.
+
+**Install dependencies and build:**
+
+```bash
+cd code
+pip install pybind11 setuptools
+make python          # or: python setup.py build_ext --inplace
+```
+
+**Usage:**
+
+```python
+import retrial_queue
+import numpy as np
+
+result = retrial_queue.simulate(
+    n_jobs=10000,
+    arrival_rate=1.0,   # λ
+    service_rate=5.0,   # μ  (stable: λ/μ = 0.2 < 1)
+    retrial_rate=3.0,   # ν
+    seed=42,            # omit for a random seed
+)
+
+print(result.avg_sojourn_time)    # E[T]
+print(result.mean_n)              # E[N]  — should ≈ λ · E[T] by Little's Law
+
+arrivals   = np.array(result.arrival_times)
+departures = np.array(result.departure_times)
+retries    = np.array(result.retry_counts)
+
+probs = retrial_queue.compute_blocking_probabilities(result.completed)
+```
+
+See `code/example.py` for a complete runnable example.
+
+### Step 3 — Run the analysis notebook
 
 Install Python dependencies:
 
@@ -98,14 +136,9 @@ Open and run all cells in `code/code.ipynb`. The notebook reads the output files
 
 **C++**: C++11 or later (uses `<random>`, `<fstream>`, `<set>`)
 
-**Python**: see `requirements.txt`
+**Python (notebook)**: `numpy matplotlib jupyter` — see `requirements.txt`
 
-```
-numpy
-matplotlib
-pandas
-jupyter
-```
+**Python (library)**: `pybind11 setuptools` — needed only to build `retrial_queue`
 
 ## Key References
 
